@@ -65,7 +65,6 @@ public class MI {
     }
 
     private static void Keres(int x, int y) {
-
         //rajta állunk már a kijáraton?
         if (palya[x][y] != 5) {
             // megnézzük jobbra,hogy nem-e a pálya szélén vagyunk, ha nem akkor megnézzük,hogy 0-e a mellette lévő értéke tehát akkor mehetünk arra....

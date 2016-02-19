@@ -7,7 +7,6 @@ package ai.algorithm;
 
 import ai.cell.Cell;
 import ai.map.Map;
-import ai.output.Console;
 import ai.path.Path;
 
 /**
@@ -15,59 +14,14 @@ import ai.path.Path;
  * @author ÁdámRichárd
  */
 public class Find {
-
-//    public static void leftHand(int x, int y, int count) {
-//        count++;
-//        //rajta állunk már a kijáraton?
-//        if (!Map.getCell(x, y).isFinish()) {
-//            // megnézzük jobbra,hogy nem-e a pálya szélén vagyunk, ha nem akkor megnézzük,hogy 0-e a mellette lévő értéke tehát akkor mehetünk arra....
-//            if (((y + 1) <= Map.meret) && (Map.getCell(x, y + 1).isFree() && !Map.getCell(x, y + 1).isWrong_way()) || Map.getCell(x, y + 1).isFinish()) {
-//                //2-est rakunk mert itt már jártunk
-//                Map.getCell(x, y).setValue(count);
-//                Map.getCell(x, y).setWrong_way(true);
-//                //újra keresünk csak már a következő lépéstől.
-//                leftHand(x, y + 1, count);
-//            }
-//            // ha nem akkor megnézzük felfelé,hogy nem-e a pálya tetején vagyunk, ha nem akkor megnézzük,hogy 0-e a felette lévő értéke tehát akkor mehetünk arra....
-//            if (((x - 1) > 0) && (Map.getCell(x - 1, y).isFree() && !Map.getCell(x - 1, y).isWrong_way() || Map.getCell(x - 1, y).isFinish())) {
-//                //2-est rakunk mert itt már jártunk
-//                Map.getCell(x, y).setValue(count);
-//                Map.getCell(x, y).setWrong_way(true);
-//                //újra keresünk csak már a következő lépéstől.
-//                leftHand(x - 1, y, count);
-//            }
-//            // megnézzük lefelé,hogy nem-e a pálya alján vagyunk, ha nem akkor megnézzük,hogy 0-e az alatta lévő értéke tehát akkor mehetünk arra....
-//            if (((x + 1) <= Map.meret) && (Map.getCell(x + 1, y).isFree() && !Map.getCell(x + 1, y).isWrong_way() || Map.getCell(x + 1, y).isFinish())) {
-//                //2-est rakunk mert itt már jártunk
-//                Map.getCell(x, y).setValue(count);
-//                Map.getCell(x, y).setWrong_way(true);
-//                //újra keresünk csak már a következő lépéstől.
-//                leftHand(x + 1, y, count);
-//            }
-//            // megnézzük balra,hogy nem-e a pálya szélén vagyunk, ha nem akkor megnézzük,hogy 0-e a mellette lévő értéke tehát akkor mehetünk arra....
-//            if (((y - 1) > 0) && (Map.getCell(x, y - 1).isFree() && !Map.getCell(x, y - 1).isWrong_way() || Map.getCell(x, y - 1).isFinish())) {
-//                //2-est rakunk mert itt már jártunk
-//                Map.getCell(x, y).setValue(count);
-//                Map.getCell(x, y).setWrong_way(true);
-//                //újra keresünk csak már a következő lépéstől.
-//                leftHand(x, y - 1, count);
-//            }
-//            //ez zsákutca :'(
-//            //ezt jelöljük -1-el nehogy visszamenjünk oda
-//            Map.getCell(x, y).setValue(-1);
-//            Map.getCell(x, y).setFree(false);
-//            Map.getCell(x, y).setWrong_way(true);
-//        } else {
-//            //sikerült megtaláltuk a kijáratot. kiírjuk az állapotot 
-//            Console.showFullMapWithNumbers();
-//        }
-//    }
+    
     public static void shortestWay(int x, int y, int count) {
         //számláló növelése
         count++;
         //a cella értéket kap a számlálóból (azért kap már most értéket mert szeretnénk tudni,hogy az azt követő lépésnél a cella értéke nagyobb-e, hisz ha nagyobb akkor az hosszabb úton jutott oda tehát nyugodtan felülírhatjuk)
         Map.getCell(x, y).setValue(count);
         Map.getCell(x, y).setCurrently_used(true);
+        //ha a cella létezik és a cella a cél akkor letakarítja a térképet és visszakeresi az útvonalat
         if (isCellValid(x + 1, y) && Map.getCell(x + 1, y).isFinish()) {
             clearMap(x, y, count);
         } else if (isCellValid(x - 1, y) && Map.getCell(x - 1, y).isFinish()) {
@@ -116,11 +70,15 @@ public class Find {
         }
     }
 
+    //letakarítjuk a felesleges útvonalat
     private static void clearMap(int cx, int cy, int steps) {
+        //Útvonal beállítása a céltól visszafele egyes léptekkel
         Path p = new Path(steps);
+        
         p.setStep_coordinates(steps - 1, cx, cy, steps);
-
+        //lépésszámtól haladunk visszafele
         for (int i = steps - 1; i > 0; i--) {
+            //csekkoljuk,hogy létező-e a koordináta, ha igen akkor feltöltjük a cella tartalmát
             if (isCellValid(cx - 1, cy) && Map.getCell(cx - 1, cy).getValue() == i && Map.getCell(cx - 1, cy).isCurrently_used()) {
                 p.setStep_coordinates(i - 1, cx - 1, cy, i);
                 cx--;
@@ -138,10 +96,12 @@ public class Find {
         Map.createNewMap(p);
     }
 
+    //cella ellenőrzése az és kapcsolatok miatt, ha bármi nem stimmel false-al tér vissza
     private static boolean isCellValid(int x, int y) {
         return x > 0 && y > 0 && x <= Map.meret && y <= Map.meret;
     }
 
+    // bejárja a pályát, ha megtalálta a startot akkor visszaküldi a cellát!
     public static Cell findStartPosition() {
         for (int i = 1; i < Map.meret; i++) {
             for (int j = 1; j < Map.meret; j++) {

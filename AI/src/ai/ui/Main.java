@@ -8,19 +8,18 @@ package ai.ui;
 import ai.algorithm.Find;
 import ai.cell.Cell;
 import ai.map.Map;
-import static ai.map.Map.map_read_t;
+import ai.map.ReadSettings;
 import ai.path.Path;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.DecimalFormat;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,14 +27,18 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Main extends javax.swing.JFrame {
 
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
     public static int index = 0;
     public static int max = 0;
+    private static About about = new About();
+    private static Settings settings = new Settings();
 
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        //beállítjuk a képt gombnak az icontokat amiket googleről loptam
         ImageIcon img = new ImageIcon(getClass().getResource("image/right.png"));
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
@@ -51,8 +54,6 @@ public class Main extends javax.swing.JFrame {
         jButton2.setIcon(img2);
 
 //        jList1.setSelectedIndex(0);
-
-
     }
 
     /**
@@ -73,8 +74,12 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -188,6 +193,17 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem5.setText("Pálya újratöltése");
+        jMenuItem5.setEnabled(false);
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
         jMenu1.add(jSeparator1);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
@@ -201,9 +217,26 @@ public class Main extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu3.setText("Beállítások");
+
+        jMenuItem4.setText("Fájlbetöltési beállítások");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu3);
+
         jMenu2.setText("Egyéb");
 
-        jMenuItem3.setText("About");
+        jMenuItem3.setText("Névjegy");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -214,18 +247,22 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //0-ás kóddal kilép a programból
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //lekérem a legrövidebb útvonal listájának méretét és megnézem,hogy nagyobb-e mint az index
         if (index < Map.getShortestPaths().size() - 1) {
             index++;
         }
+        // ha nulla akkor üres pályán vagyunk
         if (index == 0) {
             jTextField1.setText("Üres pálya");
         } else {
             jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
         }
+        //beállítjuk az indexet a másik osztályban ez alapján a feltöltött képek alapján beállítja a pályát
         canvasPanel1.setImageIndex(index);
         canvasPanel1.repaint();
         canvasPanel1.revalidate();
@@ -251,6 +288,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_formKeyReleased
 
     private void jPanel2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel2KeyReleased
+        //jobb nyíllal váltunk a következő pályára
         if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
             if (index < Map.getShortestPaths().size() - 1) {
                 index++;
@@ -263,7 +301,8 @@ public class Main extends javax.swing.JFrame {
             canvasPanel1.setImageIndex(index);
             canvasPanel1.repaint();
             canvasPanel1.revalidate();
-        } else if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+        } //bal nyíllal pakolunk másik képet
+        else if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
             if (index > 0) {
                 index--;
             }
@@ -293,28 +332,34 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         index = 0;
-        JFileChooser chooser = new JFileChooser(""+System.getProperty("user.dir"));
-
+        //megnyitunk egy új ablakban egy fájlchoosert ami visszatérési értéke a kiválasztott fájl
+        //a program futtatási helyét nyitja meg alapértelmezett mappaként
+        JFileChooser chooser = new JFileChooser("" + System.getProperty("user.dir"));
+        //megjelenítjük
         int returnVal = chooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            Map.readMap(chooser.getSelectedFile());
-        }
-        
-        Map.createNewMap(new Path(0));
-        long start = System.nanoTime();
-        Find.shortestWay(Find.findStartPosition().getX(), Find.findStartPosition().getY(), 0);
-        long end = System.nanoTime();
-        DecimalFormat df = new DecimalFormat("0.0000");
-        Map.solve_time = ""+df.format((end - start) / 1000000000d)+" mp";
-        for (int i = 0; i < Map.getShortestPaths().size(); i++) {
-            drawPath(Map.getShortestPaths().get(i));
+            ReadSettings.setLast_selected_file(chooser.getSelectedFile());
+            readFile();
         }
 
-        jTextField1.setText("Üres pálya");
-        canvasPanel1.setImageIndex(index);
-        canvasPanel1.repaint();
-        canvasPanel1.revalidate();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+
+        about.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
+        about.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        settings.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
+        settings.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        if (ReadSettings.getLast_selected_file() != null) {
+            readFile();
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,9 +397,70 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    public static void readFile() {
+
+        System.gc();
+        index = 0;
+
+        try {
+            Main.jMenuItem5.setEnabled(false);
+            Map.readMap(ReadSettings.getLast_selected_file());
+
+            //hozzáadjuk az üres pályát alapértlemezetten 0 lépésszámmal
+            Map.createNewMap(new Path(0));
+            //méretet nézünk
+            long start = System.nanoTime();
+            //legrövidebb útvonalat keres
+            try {
+                Find.shortestWay(Find.findStartPosition().getX(), Find.findStartPosition().getY(), 0);
+            } catch (Exception evt) {
+                throw new Exception("hiba a fájl olvasása közben");
+            }
+            //végzési időt
+            long end = System.nanoTime();
+            //formázzuk
+            DecimalFormat df = new DecimalFormat("0.0000");
+
+            Map.solve_time = "" + df.format((end - start) / 1000000000d) + " mp";
+            try {
+                if (ReadSettings.isLegrovidebb_ut()) {
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        if (Map.getShortestPaths().get(Map.getShortestPaths().size() - 1).getMax_step() < Map.getShortestPaths().get(i).getMax_step()) {
+                            Map.shortestPaths.remove(i);
+                            i--;
+                        }
+                    }
+                }
+            } catch (Exception evt) {
+                throw new Exception("hiba a legrövidebb út keresése közben");
+            }
+            try {
+                //kirajzoltatjuk a pályát és letároljuk
+                for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+
+                    drawPath(Map.getShortestPaths().get(i));
+
+                }
+            } catch (Exception evt) {
+                throw new Exception("hiba a pálya kirajzolása közben");
+            }
+            //üres pályát állítjuk be alapértelmezetten
+            jTextField1.setText("Üres pálya");
+            canvasPanel1.setImageIndex(index);
+            canvasPanel1.repaint();
+            canvasPanel1.revalidate();
+
+            Main.jMenuItem5.setEnabled(true);
+        } catch (Exception ex) {
+            ReadSettings.setLast_selected_file(null);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    //jobb bal nyil lekezlése
     private void keyLeftRight(int keyCode) {
         if (keyCode == KeyEvent.VK_RIGHT) {
-            if (index < Map.getShortestPaths().size() -1) {
+            if (index < Map.getShortestPaths().size() - 1) {
                 index++;
             }
             if (index == 0) {
@@ -381,37 +487,38 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-    public void drawPath(Path p) {
+    //kirajzolja a pályát különböző színekkel amiket az adott elemeknek beállítottam
+    public static void drawPath(Path p) {
         BufferedImage bufferedImage = new BufferedImage(canvasPanel1.getSize().width, canvasPanel1.getSize().height, BufferedImage.TYPE_INT_RGB);
         Graphics g2d = bufferedImage.getGraphics();
         int meret = Map.meret;
-        if(Map.meret <= 10){
+        if (Map.meret <= 10) {
             meret = 40;
-        }else if(Map.meret <= 20){
+        } else if (Map.meret <= 20) {
             meret = 20;
-        }else if(Map.meret <= 30){
+        } else if (Map.meret <= 30) {
             meret = 15;
-        }else if(Map.meret <=40){
+        } else if (Map.meret <= 40) {
             meret = 10;
         }
         int gbox = 50;
         int rbox = 150;
         int rboxw = 10;
-        
+
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, canvasPanel1.getWidth(), canvasPanel1.getHeight());
         g2d.setColor(Color.GREEN);
-        
-        g2d.drawString("Pálya adatok", 10, gbox-6);   
+
+        g2d.drawString("Pálya adatok", 10, gbox - 6);
         g2d.drawRect(10, gbox, 200, 60);
-        g2d.drawString("Pálya mérete: "+Map.meret+" x "+Map.meret, 20, gbox+(1*15));
-        g2d.drawString("Kiválasztott megoldás: "+canvasPanel1.bimage.size(), 20, gbox+(2*15));
-        g2d.drawString("Megoldás lépésszáma: "+p.getMax_step(), 20, gbox+(3*15));        
-        g2d.drawString("Beolvasással kapcsolatos adatok", rboxw, rbox-6);   
+        g2d.drawString("Pálya mérete: " + Map.meret + " x " + Map.meret, 20, gbox + (1 * 15));
+        g2d.drawString("Kiválasztott megoldás: " + CanvasPanel.bimage.size(), 20, gbox + (2 * 15));
+        g2d.drawString("Megoldás lépésszáma: " + p.getMax_step(), 20, gbox + (3 * 15));
+        g2d.drawString("Beolvasással kapcsolatos adatok", rboxw, rbox - 6);
         g2d.drawRect(rboxw, rbox, 200, 40);
-        g2d.drawString("Pálya beolvasása: "+Map.map_read_t, rboxw+10, rbox+(1*15));        
-        g2d.drawString("Algoritmus bejárása: "+Map.solve_time, rboxw+10, rbox+(2*15));
-        
+        g2d.drawString("Pálya beolvasása: " + Map.map_read_t, rboxw + 10, rbox + (1 * 15));
+        g2d.drawString("Algoritmus bejárása: " + Map.solve_time, rboxw + 10, rbox + (2 * 15));
+
         int width = meret;
         int height = meret;
         int x, y;
@@ -420,13 +527,13 @@ public class Main extends javax.swing.JFrame {
             x = 300 + meret * al1.getY();
             y = meret * al1.getX();
             if (al1.isWall()) {
-                g2d.setColor(Color.GRAY);
+                g2d.setColor(ReadSettings.getSzin_fal());
                 g2d.fillRect(x, y, width, height);
             } else if (al1.isFinish()) {
-                g2d.setColor(Color.RED);
+                g2d.setColor(ReadSettings.getSzin_cel());
                 g2d.fillRect(x, y, width, height);
             } else if (al1.isStart()) {
-                g2d.setColor(Color.BLUE);
+                g2d.setColor(ReadSettings.getSzin_start());
                 g2d.fillRect(x, y, width, height);
             } else {
                 int c = -1;
@@ -438,43 +545,56 @@ public class Main extends javax.swing.JFrame {
                 if (c > -1) {
                     if (c >= 10) {
                         g2d.setColor(Color.GREEN);
-                        g2d.fillRect(x, y, width, height);                        
+                        g2d.fillRect(x, y, width, height);
                         g2d.setColor(Color.BLACK);
-                        if(Map.meret <= 25)
+                        if (Map.meret <= 25) {
                             g2d.drawString("" + c, x + 4, y + 15);
+                        }
                     } else {
                         g2d.setColor(Color.GREEN);
                         g2d.fillRect(x, y, width, height);
                         g2d.setColor(Color.BLACK);
-                        if(Map.meret <= 25)
+                        if (Map.meret <= 25) {
                             g2d.drawString("" + c, x + 8, y + 15);
+                        }
                     }
                 } else {
-                    g2d.setColor(Color.WHITE);
+                    g2d.setColor(ReadSettings.getSzin_ut());
                     g2d.fillRect(x, y, width, height);
                 }
             }
 
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(x, y, width, height);
+            if (ReadSettings.isRacsozott_palya()) {
+                g2d.setColor(Color.BLACK);
+                g2d.drawRect(x, y, width, height);
+            }
 
         }
-        canvasPanel1.setBimage(bufferedImage);
+        //a képet átküldjük a canvasnak
+        CanvasPanel.setBimage(bufferedImage);
+        //memória problémák optimalizálása
+        bufferedImage=null;
+        g2d=null;
+        System.gc();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private ai.ui.CanvasPanel canvasPanel1;
+    private static ai.ui.CanvasPanel canvasPanel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    public static javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
 }

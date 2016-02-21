@@ -48,6 +48,7 @@ public class CanvasPanel extends JComponent {
     @Override
     public void paint(Graphics g2) {
         Graphics g = g2;
+        //csak akkor rajzoljuk ki a képet,hogyha a lista nem üres...
         if(!bimage.isEmpty())
             g.drawImage(bimage.get(index), 0, 0, this);
         else{

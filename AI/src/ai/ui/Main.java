@@ -38,7 +38,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        //beállítjuk a képt gombnak az icontokat amiket googleről loptam
+        //beállítjuk a két képet a buttonoknak, eltűntetjük a gomb keretét és a kék hátteret
         ImageIcon img = new ImageIcon(getClass().getResource("image/right.png"));
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
@@ -281,15 +281,17 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //ha az index nagyobb mint nulla akkor még csökkenthetem ellenkező esetben már az első elemen vagyunk...
         if (index > 0) {
             index--;
         }
+        // ha nulla az index írja ki,hogy üres a pála ellenkező esetben a pálya száma/összes pálya
         if (index == 0) {
             jTextField1.setText("Üres pálya");
         } else {
             jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
         }
-
+        //beállítjuk az indexet és újrarajzoljuk a canvas-t
         canvasPanel1.setImageIndex(index);
         canvasPanel1.repaint();
         canvasPanel1.revalidate();
@@ -357,23 +359,26 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-
+        //kis pozicionálás és a névjegy megjelenítése
         about.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
         about.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //szintén középrerakjuk az ablakot majd megjelenítjük a beállításokat
         settings.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
         settings.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        //ha az utolsó fájl nem null (nincs értéke a változónak) akkor újratölt
         if (ReadSettings.getLast_selected_file() != null) {
             readFile();
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       //beállítjuk az alapértelmezett beállításokat,hogyha a pálya megoldásainak száma különböző beállításon voltak újraolvassuk a fájlt
         boolean diff = ReadSettings.isLegrovidebb_ut() != true;
         ReadSettings.setKarakter_fal("#");
         ReadSettings.setKarakter_start("1");
@@ -445,7 +450,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     public static void readFile() {
-
+        //indexet nullára állítjuk mert nem tudjuk hány pálya lesz, és ezért üresen kezdünk
         index = 0;
 
         try {
@@ -543,6 +548,7 @@ public class Main extends javax.swing.JFrame {
         BufferedImage bufferedImage = new BufferedImage(canvasPanel1.getSize().width, canvasPanel1.getSize().height, BufferedImage.TYPE_INT_RGB);
         Graphics g2d = bufferedImage.getGraphics();
         int meret = Map.meret;
+        //pályaméret szerint állítjuk a kockák nagyságát.
         if (Map.meret <= 10) {
             meret = 40;
         } else if (Map.meret <= 20) {
@@ -555,7 +561,7 @@ public class Main extends javax.swing.JFrame {
         int gbox = 50;
         int rbox = 150;
         int rboxw = 10;
-
+        //innentől rajzolgatunk....
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, canvasPanel1.getWidth(), canvasPanel1.getHeight());
         g2d.setColor(Color.GREEN);

@@ -153,7 +153,7 @@ public class Map {
     public static List<Path> getShortestPaths() {
         return shortestPaths;
     }
-    //új pályát hoz létre az útvonal alapján
+    //tárolja az útvonalat a legrövidebb útvonalak listába
     public static void createNewMap(Path p) {
         Map.shortestPaths.add(p);
     }

@@ -157,21 +157,23 @@ public class ReadSettings {
         }
     }
 
+    //beolvassuk a properties/settings.xml fájlt a letárolt változók miatt
     public static void readXML() {
         try {
+            //fájl
             File f = new File("properties\\settings.xml");
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(f);
-
+            //megkeressük a settings taget
             NodeList list = doc.getElementsByTagName("Settings");
-
+            //itemeket listázunk
             Node node = list.item(0);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-
+                //kiszedjük belőle a Parameters taget majd megint listázunk
                 NodeList list2 = element.getElementsByTagName("Parameters");
 
                 Node node2 = list2.item(0);
@@ -180,27 +182,28 @@ public class ReadSettings {
 
                     Element element2 = (Element) node2;
 
+                    //változók beolvasása sima stringként
                     ReadSettings.setKarakter_cel(element2.getElementsByTagName("karakter_cel").item(0).getTextContent());
                     ReadSettings.setKarakter_fal(element2.getElementsByTagName("karakter_fal").item(0).getTextContent());
                     ReadSettings.setKarakter_start(element2.getElementsByTagName("karakter_start").item(0).getTextContent());
                     ReadSettings.setKarakter_ut(element2.getElementsByTagName("karakter_ut").item(0).getTextContent());
-
+                    //lecsekkolju,hogy a string true-e a boolean-t beállítjuk
                     if (element2.getElementsByTagName("racsozott_palya").item(0).getTextContent().equals("true")) {
                         ReadSettings.setRacsozott_palya(true);
                     } else {
                         ReadSettings.setRacsozott_palya(false);
                     }
-
+                    //lecsekkolju,hogy a string true-e a boolean-t beállítjuk
                     if (element2.getElementsByTagName("legrovidebb_ut").item(0).getTextContent().equals("true")) {
                         ReadSettings.setLegrovidebb_ut(true);
                     } else {
                         ReadSettings.setLegrovidebb_ut(false);
                     }
-
+                    //falszín tag mekeresése majd az összes értéket (R,G,B) kiolvassuk
                     NodeList list3 = element.getElementsByTagName("szin_fal");
 
                     Node node3 = list3.item(0);
-
+                    //az értékeket rögtön karakterből intre alakítjuk
                     if (node3.getNodeType() == Node.ELEMENT_NODE) {
                         Element element3 = (Element) node3;
                         ReadSettings.setSzin_fal(new Color(Integer.parseInt(element3.getElementsByTagName("szin_fal_r").item(0).getTextContent()), Integer.parseInt(element3.getElementsByTagName("szin_fal_g").item(0).getTextContent()), Integer.parseInt(element3.getElementsByTagName("szin_fal_b").item(0).getTextContent())));
@@ -233,12 +236,14 @@ public class ReadSettings {
                     }
                 }
             }
+            //beállítjuk a beállítások menü alatt a mezőket az újonnal feltöltött értékek alapján
             Settings.setAllTextField();
         } catch (SAXException | IOException | ParserConfigurationException ex) {
             JOptionPane.showMessageDialog(null, "Hiba az xml fájl olvasása közben\nMessage:" + ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
         }
     }
 
+    //létrehozzuk az xml fájlt olyan felépítéssel,hogy a beolvasás tökéletesen működhessen
     public static void createXML() {
         try {
             File f = new File("properties\\settings.xml");

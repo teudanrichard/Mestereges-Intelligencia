@@ -346,7 +346,10 @@ public class Settings extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //beállít minden szövegmezőt a megfelelő karakterrel, színnel és a checkBoxokat is bállítjuk
+    //a ReadSettings osztály alapján
     public static void setAllTextField() {
+        
         jTextField1.setText(ReadSettings.getKarakter_fal());
         jTextField2.setText(ReadSettings.getKarakter_ut());
         jTextField3.setText(ReadSettings.getKarakter_start());

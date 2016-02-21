@@ -366,7 +366,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Be&#xe1;ll&#xed;t&#xe1;sok v&#xe9;gleges&#xed;t&#xe9;se"/>
+        <Property name="text" type="java.lang.String" value="Be&#xe1;ll&#xed;t&#xe1;sok alkalmaz&#xe1;sa"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -385,7 +385,7 @@
         <Property name="text" type="java.lang.String" value="Csak a legr&#xf6;videbb &#xfa;tvonalak megjelen&#xed;t&#xe9;se"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
     </Component>
   </SubComponents>

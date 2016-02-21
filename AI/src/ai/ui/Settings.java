@@ -5,9 +5,14 @@
  */
 package ai.ui;
 
+import ai.map.Map;
 import ai.map.ReadSettings;
+import static ai.ui.Main.drawPath;
+import static ai.ui.Main.index;
+import static ai.ui.Main.panelUjrarajzol;
 import java.awt.Color;
 import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -228,7 +233,7 @@ public class Settings extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Beállítások véglegesítése");
+        jButton1.setText("Beállítások alkalmazása");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -310,16 +315,34 @@ public class Settings extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean diff = ReadSettings.isLegrovidebb_ut() != jCheckBox2.isSelected();
         ReadSettings.setKarakter_fal(jTextField1.getText());
         ReadSettings.setKarakter_ut(jTextField2.getText());
         ReadSettings.setKarakter_start(jTextField3.getText());
         ReadSettings.setKarakter_cel(jTextField4.getText());
-        ReadSettings.setRacsozott_palya(jCheckBox1.isSelected());        
+        ReadSettings.setRacsozott_palya(jCheckBox1.isSelected());
         ReadSettings.setLegrovidebb_ut(jCheckBox2.isSelected());
         ReadSettings.createXML();
         ReadSettings.checkXML();
-        if(ReadSettings.getLast_selected_file() != null)
+        if (diff && ReadSettings.getLast_selected_file() != null) {            
+            JOptionPane.showMessageDialog(null, "Útvonalak változása miatt újra kell tölteni a pályát", "Hiba történt", JOptionPane.WARNING_MESSAGE);
             Main.readFile();
+        } else {
+            if (ReadSettings.getLast_selected_file() != null) {
+                Main.index = 0;
+                CanvasPanel.removeAllImage();
+                try {
+                    //kirajzoltatjuk a pályát és letároljuk
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        drawPath(Map.getShortestPaths().get(i));
+                    }
+                    //üres pályát állítjuk be alapértelmezetten
+                    panelUjrarajzol();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
         this.hide();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -333,8 +356,8 @@ public class Settings extends javax.swing.JFrame {
         jTextField6.setBackground(ReadSettings.getSzin_ut());
         jTextField7.setBackground(ReadSettings.getSzin_start());
         jTextField8.setBackground(ReadSettings.getSzin_cel());
-        
-        jCheckBox1.setSelected(ReadSettings.isRacsozott_palya());        
+
+        jCheckBox1.setSelected(ReadSettings.isRacsozott_palya());
         jCheckBox2.setSelected(ReadSettings.isLegrovidebb_ut());
 
     }
@@ -381,7 +404,7 @@ public class Settings extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private static javax.swing.JCheckBox jCheckBox1;
-    private static javax.swing.JCheckBox jCheckBox2;
+    public static javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -80,10 +80,13 @@ public class Main extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Labirintus");
         setPreferredSize(new java.awt.Dimension(1000, 600));
         setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -219,13 +222,22 @@ public class Main extends javax.swing.JFrame {
 
         jMenu3.setText("Beállítások");
 
-        jMenuItem4.setText("Fájlbetöltési beállítások");
+        jMenuItem4.setText("Megjelenítési beállítások");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem4);
+        jMenu3.add(jSeparator3);
+
+        jMenuItem6.setText("Alapbeállítások visszaállítása");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
 
         jMenuBar1.add(jMenu3);
 
@@ -361,6 +373,41 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        boolean diff = ReadSettings.isLegrovidebb_ut() != true;
+        ReadSettings.setKarakter_fal("#");
+        ReadSettings.setKarakter_start("1");
+        ReadSettings.setKarakter_cel("+");
+        ReadSettings.setKarakter_ut(" ");
+        ReadSettings.setSzin_fal(Color.GRAY);
+        ReadSettings.setSzin_ut(Color.WHITE);
+        ReadSettings.setSzin_cel(Color.RED);
+        ReadSettings.setSzin_start(Color.BLUE);
+        ReadSettings.setRacsozott_palya(true);
+        ReadSettings.setLegrovidebb_ut(true);
+        Settings.setAllTextField();
+        ReadSettings.createXML();
+        if (diff && ReadSettings.getLast_selected_file() != null) {            
+            JOptionPane.showMessageDialog(null, "Útvonalak változása miatt újra kell tölteni a pályát", "Hiba történt", JOptionPane.WARNING_MESSAGE);
+            Main.readFile();
+        } else {
+            if (ReadSettings.getLast_selected_file() != null) {
+                Main.index = 0;
+                CanvasPanel.removeAllImage();
+                try {
+                    //kirajzoltatjuk a pályát és letároljuk
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        drawPath(Map.getShortestPaths().get(i));
+                    }
+                    //üres pályát állítjuk be alapértelmezetten
+                    panelUjrarajzol();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -399,7 +446,6 @@ public class Main extends javax.swing.JFrame {
 
     public static void readFile() {
 
-        System.gc();
         index = 0;
 
         try {
@@ -445,16 +491,21 @@ public class Main extends javax.swing.JFrame {
                 throw new Exception("hiba a pálya kirajzolása közben");
             }
             //üres pályát állítjuk be alapértelmezetten
+
             jTextField1.setText("Üres pálya");
-            canvasPanel1.setImageIndex(index);
-            canvasPanel1.repaint();
-            canvasPanel1.revalidate();
+            panelUjrarajzol();
 
             Main.jMenuItem5.setEnabled(true);
         } catch (Exception ex) {
             ReadSettings.setLast_selected_file(null);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    public static void panelUjrarajzol() {
+        canvasPanel1.setImageIndex(index);
+        canvasPanel1.repaint();
+        canvasPanel1.revalidate();
     }
 
     //jobb bal nyil lekezlése
@@ -573,8 +624,8 @@ public class Main extends javax.swing.JFrame {
         //a képet átküldjük a canvasnak
         CanvasPanel.setBimage(bufferedImage);
         //memória problémák optimalizálása
-        bufferedImage=null;
-        g2d=null;
+        bufferedImage = null;
+        g2d = null;
         System.gc();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -590,10 +641,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     public static javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 

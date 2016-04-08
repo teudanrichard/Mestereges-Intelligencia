@@ -34,7 +34,6 @@ public class Map {
     public static String map_read_t = "";
     private static ArrayList<String> row = new ArrayList<>();
 
-
     public static List<Cell> readMap(File f) {
         ReadSettings.checkXML();
         //lekérjük a kezdő időt amikor beléptünk a függvénybe
@@ -140,9 +139,8 @@ public class Map {
         return map;
     }
 
-
+    //visszatér x,y koordináta kikeresése után a cellával
     public static Cell getCell(int x, int y) {
-        //visszatér x,y koordináta kikeresése után a cellával
         for (int i = 0; i < map.size(); i++) {
             if (map.get(i).getX() == x && map.get(i).getY() == y) {
                 return map.get(i);
@@ -151,15 +149,12 @@ public class Map {
         return null;
     }
 
-
-
+    //visszatér a letárolt útvonalak listájával
     public static List<Path> getShortestPaths() {
-        //visszatér a letárolt útvonalak listájával
         return shortestPaths;
     }
-
+    //tárolja az útvonalat a legrövidebb útvonalak listába
     public static void createNewMap(Path p) {
-        //tárolja az útvonalat a legrövidebb útvonalak listába
         Map.shortestPaths.add(p);
     }
 

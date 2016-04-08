@@ -5,16 +5,55 @@
  */
 package ai.ui;
 
+import ai.algorithm.Find;
+import ai.cell.Cell;
+import ai.map.Map;
+import ai.map.ReadSettings;
+import ai.path.Path;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.text.DecimalFormat;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ÁdámRichárd
  */
 public class Main extends javax.swing.JFrame {
+
+    private static Toolkit tk = Toolkit.getDefaultToolkit();
+    public static int index = 0;
+    public static int max = 0;
+    private static About about = new About();
+    private static Settings settings = new Settings();
+
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        //beállítjuk a két képet a buttonoknak, eltűntetjük a gomb keretét és a kék hátteret
+        ImageIcon img = new ImageIcon(getClass().getResource("image/right.png"));
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setOpaque(false);
+        jButton1.setIcon(img);
+
+        ImageIcon img2 = new ImageIcon(getClass().getResource("image/left.png"));
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.setFocusPainted(false);
+        jButton2.setOpaque(false);
+        jButton2.setIcon(img2);
+
+//        jList1.setSelectedIndex(0);
     }
 
     /**
@@ -26,132 +65,353 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainPanel = new javax.swing.JPanel();
-        topPanel = new javax.swing.JPanel();
-        previousButton = new javax.swing.JButton();
-        nextButton = new javax.swing.JButton();
-        middleTextField = new javax.swing.JTextField();
-        canvasPanel = new ai.ui.CanvasPanel();
-        menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        canvasPanel1 = new ai.ui.CanvasPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        refreshMapMenuItem = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        exitMenuItem = new javax.swing.JMenuItem();
-        settingsMenu = new javax.swing.JMenu();
-        visualSettingsMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        defaultSettingsMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Labirintus");
+        setPreferredSize(new java.awt.Dimension(1000, 600));
         setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
-        mainPanel.setLayout(new java.awt.BorderLayout());
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        topPanel.setBackground(new java.awt.Color(0, 0, 0));
-        topPanel.setPreferredSize(new java.awt.Dimension(987, 50));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel2.setPreferredSize(new java.awt.Dimension(987, 50));
+        jPanel2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPanel2KeyReleased(evt);
+            }
+        });
 
-        previousButton.setBackground(new java.awt.Color(0, 0, 0));
-        previousButton.setBorder(null);
-        previousButton.setOpaque(false);
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setBorder(null);
+        jButton1.setOpaque(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButton1KeyReleased(evt);
+            }
+        });
 
-        nextButton.setBackground(new java.awt.Color(0, 0, 0));
-        nextButton.setBorder(null);
-        nextButton.setOpaque(false);
+        jButton2.setBackground(new java.awt.Color(0, 0, 0));
+        jButton2.setBorder(null);
+        jButton2.setOpaque(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButton2KeyReleased(evt);
+            }
+        });
 
-        middleTextField.setEditable(false);
-        middleTextField.setBackground(new java.awt.Color(0, 0, 0));
-        middleTextField.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        middleTextField.setForeground(new java.awt.Color(51, 153, 255));
-        middleTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        middleTextField.setBorder(null);
+        jTextField1.setEditable(false);
+        jTextField1.setBackground(new java.awt.Color(0, 0, 0));
+        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(51, 153, 255));
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setBorder(null);
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
-        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
-        topPanel.setLayout(topPanelLayout);
-        topPanelLayout.setHorizontalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(middleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(previousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        topPanelLayout.setVerticalGroup(
-            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(topPanelLayout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(middleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(previousButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        mainPanel.add(topPanel, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout canvasPanelLayout = new javax.swing.GroupLayout(canvasPanel);
-        canvasPanel.setLayout(canvasPanelLayout);
-        canvasPanelLayout.setHorizontalGroup(
-            canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout canvasPanel1Layout = new javax.swing.GroupLayout(canvasPanel1);
+        canvasPanel1.setLayout(canvasPanel1Layout);
+        canvasPanel1Layout.setHorizontalGroup(
+            canvasPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 987, Short.MAX_VALUE)
         );
-        canvasPanelLayout.setVerticalGroup(
-            canvasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        canvasPanel1Layout.setVerticalGroup(
+            canvasPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 434, Short.MAX_VALUE)
         );
 
-        mainPanel.add(canvasPanel, java.awt.BorderLayout.CENTER);
+        jPanel1.add(canvasPanel1, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        fileMenu.setText("File");
+        jMenu1.setText("File");
 
-        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        openMenuItem.setText("Megnyitás");
-        fileMenu.add(openMenuItem);
-        fileMenu.add(jSeparator2);
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Megnyitás");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator2);
 
-        refreshMapMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
-        refreshMapMenuItem.setText("Pálya újratöltése");
-        refreshMapMenuItem.setEnabled(false);
-        fileMenu.add(refreshMapMenuItem);
-        fileMenu.add(jSeparator1);
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem5.setText("Pálya újratöltése");
+        jMenuItem5.setEnabled(false);
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+        jMenu1.add(jSeparator1);
 
-        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        exitMenuItem.setText("Kilépés");
-        fileMenu.add(exitMenuItem);
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Kilépés");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
-        menuBar.add(fileMenu);
+        jMenuBar1.add(jMenu1);
 
-        settingsMenu.setText("Beállítások");
+        jMenu3.setText("Beállítások");
 
-        visualSettingsMenuItem.setText("Megjelenítési beállítások");
-        settingsMenu.add(visualSettingsMenuItem);
-        settingsMenu.add(jSeparator3);
+        jMenuItem4.setText("Megjelenítési beállítások");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+        jMenu3.add(jSeparator3);
 
-        defaultSettingsMenuItem.setText("Alapbeállítások visszaállítása");
-        settingsMenu.add(defaultSettingsMenuItem);
+        jMenuItem6.setText("Alapbeállítások visszaállítása");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
 
-        menuBar.add(settingsMenu);
+        jMenuBar1.add(jMenu3);
 
-        helpMenu.setText("Egyéb");
+        jMenu2.setText("Egyéb");
 
-        aboutMenuItem.setText("Névjegy");
-        helpMenu.add(aboutMenuItem);
+        jMenuItem3.setText("Névjegy");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
 
-        menuBar.add(helpMenu);
+        jMenuBar1.add(jMenu2);
 
-        setJMenuBar(menuBar);
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //0-ás kóddal kilép a programból
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //lekérem a legrövidebb útvonal listájának méretét és megnézem,hogy nagyobb-e mint az index
+        if (index < Map.getShortestPaths().size() - 1) {
+            index++;
+        }
+        // ha nulla akkor üres pályán vagyunk
+        if (index == 0) {
+            jTextField1.setText("Üres pálya");
+        } else {
+            jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+        }
+        //beállítjuk az indexet a másik osztályban ez alapján a feltöltött képek alapján beállítja a pályát
+        canvasPanel1.setImageIndex(index);
+        canvasPanel1.repaint();
+        canvasPanel1.revalidate();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //ha az index nagyobb mint nulla akkor még csökkenthetem ellenkező esetben már az első elemen vagyunk...
+        if (index > 0) {
+            index--;
+        }
+        // ha nulla az index írja ki,hogy üres a pála ellenkező esetben a pálya száma/összes pálya
+        if (index == 0) {
+            jTextField1.setText("Üres pálya");
+        } else {
+            jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+        }
+        //beállítjuk az indexet és újrarajzoljuk a canvas-t
+        canvasPanel1.setImageIndex(index);
+        canvasPanel1.repaint();
+        canvasPanel1.revalidate();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+
+    }//GEN-LAST:event_formKeyReleased
+
+    private void jPanel2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel2KeyReleased
+        //jobb nyíllal váltunk a következő pályára
+        if (evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if (index < Map.getShortestPaths().size() - 1) {
+                index++;
+            }
+            if (index == 0) {
+                jTextField1.setText("Üres pálya");
+            } else {
+                jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+            }
+            canvasPanel1.setImageIndex(index);
+            canvasPanel1.repaint();
+            canvasPanel1.revalidate();
+        } //bal nyíllal pakolunk másik képet
+        else if (evt.getKeyCode() == KeyEvent.VK_LEFT) {
+            if (index > 0) {
+                index--;
+            }
+            if (index == 0) {
+                jTextField1.setText("Üres pálya");
+            } else {
+                jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+            }
+
+            canvasPanel1.setImageIndex(index);
+            canvasPanel1.repaint();
+            canvasPanel1.revalidate();
+        }
+    }//GEN-LAST:event_jPanel2KeyReleased
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        keyLeftRight(evt.getKeyCode());
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyReleased
+        keyLeftRight(evt.getKeyCode());
+    }//GEN-LAST:event_jButton2KeyReleased
+
+    private void jButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyReleased
+        keyLeftRight(evt.getKeyCode());
+    }//GEN-LAST:event_jButton1KeyReleased
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        index = 0;
+        //megnyitunk egy új ablakban egy fájlchoosert ami visszatérési értéke a kiválasztott fájl
+        //a program futtatási helyét nyitja meg alapértelmezett mappaként
+        JFileChooser chooser = new JFileChooser("" + System.getProperty("user.dir"));
+        //megjelenítjük
+        int returnVal = chooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            ReadSettings.setLast_selected_file(chooser.getSelectedFile());
+            readFile();
+        }
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        //kis pozicionálás és a névjegy megjelenítése
+        about.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
+        about.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //szintén középrerakjuk az ablakot majd megjelenítjük a beállításokat
+        settings.setLocation(tk.getScreenSize().width / 2 - 250, tk.getScreenSize().height / 2 - 112);
+        settings.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        //ha az utolsó fájl nem null (nincs értéke a változónak) akkor újratölt
+        if (ReadSettings.getLast_selected_file() != null) {
+            readFile();
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+       //beállítjuk az alapértelmezett beállításokat,hogyha a pálya megoldásainak száma különböző beállításon voltak újraolvassuk a fájlt
+        boolean diff = ReadSettings.isLegrovidebb_ut() != true;
+        ReadSettings.setKarakter_fal("#");
+        ReadSettings.setKarakter_start("1");
+        ReadSettings.setKarakter_cel("+");
+        ReadSettings.setKarakter_ut(" ");
+        ReadSettings.setSzin_fal(Color.GRAY);
+        ReadSettings.setSzin_ut(Color.WHITE);
+        ReadSettings.setSzin_cel(Color.RED);
+        ReadSettings.setSzin_start(Color.BLUE);
+        ReadSettings.setRacsozott_palya(true);
+        ReadSettings.setLegrovidebb_ut(true);
+        Settings.setAllTextField();
+        ReadSettings.createXML();
+        if (diff && ReadSettings.getLast_selected_file() != null) {            
+            JOptionPane.showMessageDialog(null, "Útvonalak változása miatt újra kell tölteni a pályát", "Hiba történt", JOptionPane.WARNING_MESSAGE);
+            Main.readFile();
+        } else {
+            if (ReadSettings.getLast_selected_file() != null) {
+                Main.index = 0;
+                CanvasPanel.removeAllImage();
+                try {
+                    //kirajzoltatjuk a pályát és letároljuk
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        drawPath(Map.getShortestPaths().get(i));
+                    }
+                    //üres pályát állítjuk be alapértelmezetten
+                    panelUjrarajzol();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,26 +449,211 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    public static void readFile() {
+        //indexet nullára állítjuk mert nem tudjuk hány pálya lesz, és ezért üresen kezdünk
+        index = 0;
+
+        try {
+            Main.jMenuItem5.setEnabled(false);
+            Map.readMap(ReadSettings.getLast_selected_file());
+
+            //hozzáadjuk az üres pályát alapértlemezetten 0 lépésszámmal
+            Map.createNewMap(new Path(0));
+            //méretet nézünk
+            long start = System.nanoTime();
+            //legrövidebb útvonalat keres
+            try {
+                Find.shortestWay(Find.findStartPosition().getX(), Find.findStartPosition().getY(), 0);
+            } catch (Exception evt) {
+                throw new Exception("hiba a fájl olvasása közben");
+            }
+            //végzési időt
+            long end = System.nanoTime();
+            //formázzuk
+            DecimalFormat df = new DecimalFormat("0.0000");
+
+            Map.solve_time = "" + df.format((end - start) / 1000000000d) + " mp";
+            try {
+                if (ReadSettings.isLegrovidebb_ut()) {
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        if (Map.getShortestPaths().get(Map.getShortestPaths().size() - 1).getMax_step() < Map.getShortestPaths().get(i).getMax_step()) {
+                            Map.shortestPaths.remove(i);
+                            i--;
+                        }
+                    }
+                }
+            } catch (Exception evt) {
+                throw new Exception("hiba a legrövidebb út keresése közben");
+            }
+            try {
+                //kirajzoltatjuk a pályát és letároljuk
+                for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+
+                    drawPath(Map.getShortestPaths().get(i));
+
+                }
+            } catch (Exception evt) {
+                throw new Exception("hiba a pálya kirajzolása közben");
+            }
+            //üres pályát állítjuk be alapértelmezetten
+
+            jTextField1.setText("Üres pálya");
+            panelUjrarajzol();
+
+            Main.jMenuItem5.setEnabled(true);
+        } catch (Exception ex) {
+            ReadSettings.setLast_selected_file(null);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public static void panelUjrarajzol() {
+        canvasPanel1.setImageIndex(index);
+        canvasPanel1.repaint();
+        canvasPanel1.revalidate();
+    }
+
+    //jobb bal nyil lekezlése
+    private void keyLeftRight(int keyCode) {
+        if (keyCode == KeyEvent.VK_RIGHT) {
+            if (index < Map.getShortestPaths().size() - 1) {
+                index++;
+            }
+            if (index == 0) {
+                jTextField1.setText("Üres pálya");
+            } else {
+                jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+            }
+            canvasPanel1.setImageIndex(index);
+            canvasPanel1.repaint();
+            canvasPanel1.revalidate();
+        } else if (keyCode == KeyEvent.VK_LEFT) {
+            if (index > 0) {
+                index--;
+            }
+            if (index == 0) {
+                jTextField1.setText("Üres pálya");
+            } else {
+                jTextField1.setText(index + "/" + (Map.shortestPaths.size() - 1) + " megoldás");
+            }
+
+            canvasPanel1.setImageIndex(index);
+            canvasPanel1.repaint();
+            canvasPanel1.revalidate();
+        }
+    }
+
+    //kirajzolja a pályát különböző színekkel amiket az adott elemeknek beállítottam
+    public static void drawPath(Path p) {
+        BufferedImage bufferedImage = new BufferedImage(canvasPanel1.getSize().width, canvasPanel1.getSize().height, BufferedImage.TYPE_INT_RGB);
+        Graphics g2d = bufferedImage.getGraphics();
+        int meret = Map.meret;
+        //pályaméret szerint állítjuk a kockák nagyságát.
+        if (Map.meret <= 10) {
+            meret = 40;
+        } else if (Map.meret <= 20) {
+            meret = 20;
+        } else if (Map.meret <= 30) {
+            meret = 15;
+        } else if (Map.meret <= 40) {
+            meret = 10;
+        }
+        int gbox = 50;
+        int rbox = 150;
+        int rboxw = 10;
+        //innentől rajzolgatunk....
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, canvasPanel1.getWidth(), canvasPanel1.getHeight());
+        g2d.setColor(Color.GREEN);
+
+        g2d.drawString("Pálya adatok", 10, gbox - 6);
+        g2d.drawRect(10, gbox, 200, 60);
+        g2d.drawString("Pálya mérete: " + Map.meret + " x " + Map.meret, 20, gbox + (1 * 15));
+        g2d.drawString("Kiválasztott megoldás: " + CanvasPanel.bimage.size(), 20, gbox + (2 * 15));
+        g2d.drawString("Megoldás lépésszáma: " + p.getMax_step(), 20, gbox + (3 * 15));
+        g2d.drawString("Beolvasással kapcsolatos adatok", rboxw, rbox - 6);
+        g2d.drawRect(rboxw, rbox, 200, 40);
+        g2d.drawString("Pálya beolvasása: " + Map.map_read_t, rboxw + 10, rbox + (1 * 15));
+        g2d.drawString("Algoritmus bejárása: " + Map.solve_time, rboxw + 10, rbox + (2 * 15));
+
+        int width = meret;
+        int height = meret;
+        int x, y;
+
+        for (Cell al1 : Map.map) {
+            x = 300 + meret * al1.getY();
+            y = meret * al1.getX();
+            if (al1.isWall()) {
+                g2d.setColor(ReadSettings.getSzin_fal());
+                g2d.fillRect(x, y, width, height);
+            } else if (al1.isFinish()) {
+                g2d.setColor(ReadSettings.getSzin_cel());
+                g2d.fillRect(x, y, width, height);
+            } else if (al1.isStart()) {
+                g2d.setColor(ReadSettings.getSzin_start());
+                g2d.fillRect(x, y, width, height);
+            } else {
+                int c = -1;
+                for (int k = 0; k < p.getMax_step(); k++) {
+                    if (al1.getX() == p.getStep_coordinates()[k][0] && al1.getY() == p.getStep_coordinates()[k][1]) {
+                        c = p.getStep_coordinates()[k][2];
+                    }
+                }
+                if (c > -1) {
+                    if (c >= 10) {
+                        g2d.setColor(Color.GREEN);
+                        g2d.fillRect(x, y, width, height);
+                        g2d.setColor(Color.BLACK);
+                        if (Map.meret <= 25) {
+                            g2d.drawString("" + c, x + 4, y + 15);
+                        }
+                    } else {
+                        g2d.setColor(Color.GREEN);
+                        g2d.fillRect(x, y, width, height);
+                        g2d.setColor(Color.BLACK);
+                        if (Map.meret <= 25) {
+                            g2d.drawString("" + c, x + 8, y + 15);
+                        }
+                    }
+                } else {
+                    g2d.setColor(ReadSettings.getSzin_ut());
+                    g2d.fillRect(x, y, width, height);
+                }
+            }
+
+            if (ReadSettings.isRacsozott_palya()) {
+                g2d.setColor(Color.BLACK);
+                g2d.drawRect(x, y, width, height);
+            }
+
+        }
+        //a képet átküldjük a canvasnak
+        CanvasPanel.setBimage(bufferedImage);
+        //memória problémák optimalizálása
+        bufferedImage = null;
+        g2d = null;
+        System.gc();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JMenuItem aboutMenuItem;
-    public static ai.ui.CanvasPanel canvasPanel;
-    public javax.swing.JMenuItem defaultSettingsMenuItem;
-    public javax.swing.JMenuItem exitMenuItem;
-    public javax.swing.JMenu fileMenu;
-    public javax.swing.JMenu helpMenu;
+    private static ai.ui.CanvasPanel canvasPanel1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    public static javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    public javax.swing.JPopupMenu.Separator jSeparator3;
-    public javax.swing.JPanel mainPanel;
-    public javax.swing.JMenuBar menuBar;
-    public javax.swing.JTextField middleTextField;
-    public javax.swing.JButton nextButton;
-    public javax.swing.JMenuItem openMenuItem;
-    public javax.swing.JButton previousButton;
-    public static javax.swing.JMenuItem refreshMapMenuItem;
-    public javax.swing.JMenu settingsMenu;
-    public javax.swing.JPanel topPanel;
-    public javax.swing.JMenuItem visualSettingsMenuItem;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
 }

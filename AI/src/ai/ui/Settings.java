@@ -5,6 +5,14 @@
  */
 package ai.ui;
 
+import ai.map.Map;
+import ai.map.ReadSettings;
+import static ai.ui.Main.drawPath;
+import static ai.ui.Main.index;
+import static ai.ui.Main.panelUjrarajzol;
+import java.awt.Color;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -50,9 +58,9 @@ public class Settings extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        saveSettingsButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        shortestPathCheckBox = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setTitle("Beállítások");
 
@@ -139,12 +147,32 @@ public class Settings extends javax.swing.JFrame {
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton2.setText("Módosít");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Módosít");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Módosít");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Módosít");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -205,11 +233,16 @@ public class Settings extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        saveSettingsButton.setText("Beállítások alkalmazása");
+        jButton1.setText("Beállítások alkalmazása");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Rácsozott pálya");
 
-        shortestPathCheckBox.setText("Csak a legrövidebb útvonalak megjelenítése");
+        jCheckBox2.setText("Csak a legrövidebb útvonalak megjelenítése");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,12 +251,12 @@ public class Settings extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(shortestPathCheckBox)
+                    .addComponent(jCheckBox2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jCheckBox1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saveSettingsButton))
+                            .addComponent(jButton1))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -238,18 +271,99 @@ public class Settings extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(shortestPathCheckBox)
+                .addComponent(jCheckBox2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox1)
-                    .addComponent(saveSettingsButton))
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Color c = JColorChooser.showDialog(null, "Válassz fal színt!", ReadSettings.getSzin_fal());
+        if (c != null) {
+            ReadSettings.setSzin_fal(c);
+            jTextField5.setBackground(c);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Color c = JColorChooser.showDialog(null, "Válassz út színt!", ReadSettings.getSzin_ut());
+        if (c != null) {
+            ReadSettings.setSzin_ut(c);
+            jTextField6.setBackground(c);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Color c = JColorChooser.showDialog(null, "Válassz Start színt!", ReadSettings.getSzin_start());
+        if (c != null) {
+            ReadSettings.setSzin_start(c);
+            jTextField7.setBackground(c);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Color c = JColorChooser.showDialog(null, "Válassz cél színt!", ReadSettings.getSzin_cel());
+        if (c != null) {
+            ReadSettings.setSzin_cel(c);
+            jTextField8.setBackground(c);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean diff = ReadSettings.isLegrovidebb_ut() != jCheckBox2.isSelected();
+        ReadSettings.setKarakter_fal(jTextField1.getText());
+        ReadSettings.setKarakter_ut(jTextField2.getText());
+        ReadSettings.setKarakter_start(jTextField3.getText());
+        ReadSettings.setKarakter_cel(jTextField4.getText());
+        ReadSettings.setRacsozott_palya(jCheckBox1.isSelected());
+        ReadSettings.setLegrovidebb_ut(jCheckBox2.isSelected());
+        ReadSettings.createXML();
+        ReadSettings.checkXML();
+        if (diff && ReadSettings.getLast_selected_file() != null) {            
+            JOptionPane.showMessageDialog(null, "Útvonalak változása miatt újra kell tölteni a pályát", "Hiba történt", JOptionPane.WARNING_MESSAGE);
+            Main.readFile();
+        } else {
+            if (ReadSettings.getLast_selected_file() != null) {
+                Main.index = 0;
+                CanvasPanel.removeAllImage();
+                try {
+                    //kirajzoltatjuk a pályát és letároljuk
+                    for (int i = 0; i < Map.getShortestPaths().size(); i++) {
+                        drawPath(Map.getShortestPaths().get(i));
+                    }
+                    //üres pályát állítjuk be alapértelmezetten
+                    panelUjrarajzol();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+        this.hide();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    //beállít minden szövegmezőt a megfelelő karakterrel, színnel és a checkBoxokat is bállítjuk
+    //a ReadSettings osztály alapján
+    public static void setAllTextField() {
+        
+        jTextField1.setText(ReadSettings.getKarakter_fal());
+        jTextField2.setText(ReadSettings.getKarakter_ut());
+        jTextField3.setText(ReadSettings.getKarakter_start());
+        jTextField4.setText(ReadSettings.getKarakter_cel());
+
+        jTextField5.setBackground(ReadSettings.getSzin_fal());
+        jTextField6.setBackground(ReadSettings.getSzin_ut());
+        jTextField7.setBackground(ReadSettings.getSzin_start());
+        jTextField8.setBackground(ReadSettings.getSzin_cel());
+
+        jCheckBox1.setSelected(ReadSettings.isRacsozott_palya());
+        jCheckBox2.setSelected(ReadSettings.isLegrovidebb_ut());
+
+    }
 
     /**
      * @param args the command line arguments
@@ -287,11 +401,13 @@ public class Settings extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton jButton2;
-    public javax.swing.JButton jButton3;
-    public javax.swing.JButton jButton4;
-    public javax.swing.JButton jButton5;
-    public javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private static javax.swing.JCheckBox jCheckBox1;
+    public static javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -302,15 +418,13 @@ public class Settings extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    public javax.swing.JTextField jTextField1;
-    public javax.swing.JTextField jTextField2;
-    public javax.swing.JTextField jTextField3;
-    public javax.swing.JTextField jTextField4;
-    public javax.swing.JTextField jTextField5;
-    public javax.swing.JTextField jTextField6;
-    public javax.swing.JTextField jTextField7;
-    public javax.swing.JTextField jTextField8;
-    public javax.swing.JButton saveSettingsButton;
-    public javax.swing.JCheckBox shortestPathCheckBox;
+    private static javax.swing.JTextField jTextField1;
+    private static javax.swing.JTextField jTextField2;
+    private static javax.swing.JTextField jTextField3;
+    private static javax.swing.JTextField jTextField4;
+    private static javax.swing.JTextField jTextField5;
+    private static javax.swing.JTextField jTextField6;
+    private static javax.swing.JTextField jTextField7;
+    private static javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }

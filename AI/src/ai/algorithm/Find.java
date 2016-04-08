@@ -70,6 +70,12 @@ public class Find {
         }
     }
 
+    /**
+     * clean the map and try to find the shortest way backward from the finish position
+     * @param cx cell x 
+     * @param cy cell y
+     * @param steps steps
+     */
     //letakarítjuk a felesleges útvonalat
     private static void clearMap(int cx, int cy, int steps) {
         //Útvonal beállítása a céltól visszafele egyes léptekkel
@@ -95,14 +101,23 @@ public class Find {
         }
         Map.createNewMap(p);
     }
-
-    //cella ellenőrzése az és kapcsolatok miatt, ha bármi nem stimmel false-al tér vissza
-    private static boolean isCellValid(int x, int y) {
+    /**
+     * 
+     * @param x x position
+     * @param y y position
+     * @return with true or false if the position is still on the map
+     */
+    private static boolean isCellValid(int x, int y) { 
+        //cella ellenőrzése az és kapcsolatok miatt, ha bármi nem stimmel false-al tér vissza
         return x > 0 && y > 0 && x <= Map.meret && y <= Map.meret;
     }
 
-    // bejárja a pályát, ha megtalálta a startot akkor visszaküldi a cellát!
+    /**
+     * try to find the start position returns with the cell
+     * @return
+     */
     public static Cell findStartPosition() {
+        // bejárja a pályát, ha megtalálta a startot akkor visszaküldi a cellát!
         for (int i = 1; i < Map.meret; i++) {
             for (int j = 1; j < Map.meret; j++) {
                 if (Map.getCell(i, j).isStart()) {

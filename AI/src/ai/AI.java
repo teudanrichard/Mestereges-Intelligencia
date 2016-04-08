@@ -1,6 +1,6 @@
 package ai;
 
-import ai.Events.Controller;
+import ai.event.Controller;
 import ai.map.ReadSettings;
 import ai.ui.CanvasPanel;
 import ai.ui.Main;

@@ -5,7 +5,7 @@
  */
 package ai.map;
 
-import ai.Events.Controller;
+import ai.event.Controller;
 import ai.ui.Main;
 import java.awt.Color;
 import java.io.File;

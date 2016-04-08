@@ -35,19 +35,19 @@ import javax.swing.JOptionPane;
  */
 public class Controller {
 
-    private static Toolkit tk = Toolkit.getDefaultToolkit();
+    private static final Toolkit tk = Toolkit.getDefaultToolkit();
     public static int index = 0;
     public static int max = 0;
-    private static About about = new About();
+    private static final About about = new About();
     private static Settings settings;
     Main main;
 
     public Controller(Main m, Settings s) {
         main = m;
         settings = s;
-        main.nextButton.addActionListener(new nextButton());
+        main.nextButton.addActionListener(new nextButtonListener());
         main.nextButton.addKeyListener(new nextButtonKeyListener());
-        main.previousButton.addActionListener(new previousButton());
+        main.previousButton.addActionListener(new previousButtonListener());
         main.previousButton.addKeyListener(new previousButtonKeyListener());
         main.exitMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -56,11 +56,19 @@ public class Controller {
                 System.exit(0);
             }
         });
-        main.defaultSettingsMenuItem.addActionListener(new defaultSettingsMenuItem());
-        main.refreshMapMenuItem.addActionListener(new refreshMapMenuItem());
+        main.defaultSettingsMenuItem.addActionListener(new defaultSettingsMenuItemListener());
+        main.refreshMapMenuItem.addActionListener(new refreshMapMenuItemListener());
         main.openMenuItem.addActionListener(new openMenuItem());
-        main.topPanel.addKeyListener(new topPanelListener());
+        main.topPanel.addKeyListener(new topPanelKeyListener());
         main.middleTextField.addKeyListener(new middleTextFieldListener());
+        main.visualSettingsMenuItem.addActionListener(new visualSettnigsMenuItemListener());
+        settings.saveSettingsButton.addActionListener(new saveSettingsButtonListener());
+        settings.jButton2.addActionListener(new Color1ActionListener());
+        settings.jButton3.addActionListener(new Color2ActionListener());
+        settings.jButton4.addActionListener(new Color3ActionListener());
+        settings.jButton5.addActionListener(new Color4ActionListener());
+        main.aboutMenuItem.addActionListener(new aboutMenuItemListener());
+        
         //beállítjuk a két képet a buttonoknak, eltűntetjük a gomb keretét és a kék hátteret
         ImageIcon img = new ImageIcon(getClass().getResource("/ai/ui/image/right.png"));
         main.previousButton.setBorderPainted(false);
@@ -75,17 +83,9 @@ public class Controller {
         main.nextButton.setFocusPainted(false);
         main.nextButton.setOpaque(false);
         main.nextButton.setIcon(img2);
-        main.visualSettingsMenuItem.addActionListener(new visualSettingsMenuItem());
-        settings.saveSettingsButton.addActionListener(new saveSettingsButton());
-        settings.jButton2.addActionListener(new Color1ActionListener());
-        settings.jButton3.addActionListener(new Color2ActionListener());
-        settings.jButton4.addActionListener(new Color3ActionListener());
-        settings.jButton5.addActionListener(new Color4ActionListener());
-        main.aboutMenuItem.addActionListener(new aboutMenuItem());
-//        jList1.setSelectedIndex(0);
     }
 
-    private static class visualSettingsMenuItem implements ActionListener {
+    private class visualSettnigsMenuItemListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -95,7 +95,7 @@ public class Controller {
         }
     }
 
-    private static class Color1ActionListener implements ActionListener {
+    private class Color1ActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -107,7 +107,7 @@ public class Controller {
         }
     }
 
-    private static class Color2ActionListener implements ActionListener {
+    private class Color2ActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -120,7 +120,7 @@ public class Controller {
 
     }
 
-    private static class Color3ActionListener implements ActionListener {
+    private class Color3ActionListener implements ActionListener {
 
         public Color3ActionListener() {
         }
@@ -135,7 +135,7 @@ public class Controller {
         }
     }
 
-    private static class Color4ActionListener implements ActionListener {
+    private class Color4ActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -147,10 +147,7 @@ public class Controller {
         }
     }
 
-    private static class aboutMenuItem implements ActionListener {
-
-        public aboutMenuItem() {
-        }
+    private class aboutMenuItemListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -186,7 +183,7 @@ public class Controller {
         }
     }
 
-    private class saveSettingsButton implements ActionListener {
+    private class saveSettingsButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -220,7 +217,7 @@ public class Controller {
         }
     }
 
-    private class refreshMapMenuItem implements ActionListener {
+    private class refreshMapMenuItemListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -243,25 +240,18 @@ public class Controller {
             int returnVal = chooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 ReadSettings.setLast_selected_file(chooser.getSelectedFile());
+                main.refreshMapMenuItem.setEnabled(true);
                 readFile();
             }
         }
     }
 
-    private class topPanelListener implements KeyListener {
-
-        public topPanelListener() {
-        }
+    private class topPanelKeyListener implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {}
 
         @Override
-        public void keyTyped(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        public void keyPressed(KeyEvent e) {}
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -298,18 +288,13 @@ public class Controller {
 
     private class middleTextFieldListener implements KeyListener {
 
-        public middleTextFieldListener() {
-        }
+        public middleTextFieldListener() {}
 
         @Override
-        public void keyTyped(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        public void keyTyped(KeyEvent e) {}
 
         @Override
-        public void keyPressed(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        public void keyPressed(KeyEvent e) {}
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -317,7 +302,7 @@ public class Controller {
         }
     }
 
-    class nextButton implements ActionListener {
+    private class nextButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -339,7 +324,7 @@ public class Controller {
         }
     }
 
-    class previousButton implements ActionListener {
+    private class previousButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -360,7 +345,7 @@ public class Controller {
         }
     }
 
-    class defaultSettingsMenuItem implements ActionListener {
+    private class defaultSettingsMenuItemListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -404,7 +389,7 @@ public class Controller {
         index = 0;
 
         try {
-            Main.refreshMapMenuItem.setEnabled(false);
+            main.refreshMapMenuItem.setEnabled(false);
             Map.readMap(ReadSettings.getLast_selected_file());
 
             //hozzáadjuk az üres pályát alapértlemezetten 0 lépésszámmal
@@ -450,14 +435,14 @@ public class Controller {
             main.middleTextField.setText("Üres pálya");
             panelUjrarajzol();
 
-            Main.refreshMapMenuItem.setEnabled(true);
+            main.refreshMapMenuItem.setEnabled(true);
         } catch (Exception ex) {
             ReadSettings.setLast_selected_file(null);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    public static void panelUjrarajzol() {
+    public void panelUjrarajzol() {
         canvasPanel.setImageIndex(index);
         canvasPanel.repaint();
         canvasPanel.revalidate();
@@ -494,7 +479,7 @@ public class Controller {
     }
 
     //kirajzolja a pályát különböző színekkel amiket az adott elemeknek beállítottam
-    public static void drawPath(Path p) {
+    public void drawPath(Path p) {
         BufferedImage bufferedImage = new BufferedImage(canvasPanel.getSize().width, canvasPanel.getSize().height, BufferedImage.TYPE_INT_RGB);
         Graphics g2d = bufferedImage.getGraphics();
         int meret = Map.meret;

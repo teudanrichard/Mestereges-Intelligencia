@@ -196,8 +196,8 @@ public class Main extends javax.swing.JFrame {
     public javax.swing.JMenuItem exitMenuItem;
     public javax.swing.JMenu fileMenu;
     public javax.swing.JMenu helpMenu;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
+    public javax.swing.JPopupMenu.Separator jSeparator1;
+    public javax.swing.JPopupMenu.Separator jSeparator2;
     public javax.swing.JPopupMenu.Separator jSeparator3;
     public javax.swing.JPanel mainPanel;
     public javax.swing.JMenuBar menuBar;
@@ -205,7 +205,7 @@ public class Main extends javax.swing.JFrame {
     public javax.swing.JButton nextButton;
     public javax.swing.JMenuItem openMenuItem;
     public javax.swing.JButton previousButton;
-    public static javax.swing.JMenuItem refreshMapMenuItem;
+    public javax.swing.JMenuItem refreshMapMenuItem;
     public javax.swing.JMenu settingsMenu;
     public javax.swing.JPanel topPanel;
     public javax.swing.JMenuItem visualSettingsMenuItem;

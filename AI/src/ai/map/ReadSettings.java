@@ -52,7 +52,6 @@ public class ReadSettings {
 
     public static void setLast_selected_file(File last_selected_file) {
         ReadSettings.last_selected_file = last_selected_file;
-        Main.refreshMapMenuItem.setEnabled(true);
     }
 
     public static boolean isLegrovidebb_ut() {

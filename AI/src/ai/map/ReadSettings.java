@@ -5,8 +5,8 @@
  */
 package ai.map;
 
+import ai.Events.Controller;
 import ai.ui.Main;
-import ai.ui.Settings;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class ReadSettings {
 
     public static void setLast_selected_file(File last_selected_file) {
         ReadSettings.last_selected_file = last_selected_file;
-        Main.jMenuItem5.setEnabled(true);
+        Main.refreshMapMenuItem.setEnabled(true);
     }
 
     public static boolean isLegrovidebb_ut() {
@@ -143,6 +143,9 @@ public class ReadSettings {
         ReadSettings.szin_start = szin_start;
     }
 
+    /**
+     * check properties folder then settings.xml if it doesn't exists it will create the folder and the xml file too
+     */
     public static void checkXML() {
         File folder = new File("properties");
         if (!folder.isDirectory() && !folder.exists()) {
@@ -157,8 +160,9 @@ public class ReadSettings {
         }
     }
 
-    //beolvassuk a properties/settings.xml fájlt a letárolt változók miatt
+
     public static void readXML() {
+        //beolvassuk a properties/settings.xml fájlt a letárolt változók miatt
         try {
             //fájl
             File f = new File("properties\\settings.xml");
@@ -237,14 +241,13 @@ public class ReadSettings {
                 }
             }
             //beállítjuk a beállítások menü alatt a mezőket az újonnal feltöltött értékek alapján
-            Settings.setAllTextField();
+            Controller.setAllTextField();
         } catch (SAXException | IOException | ParserConfigurationException ex) {
             JOptionPane.showMessageDialog(null, "Hiba az xml fájl olvasása közben\nMessage:" + ex.getMessage(), "Hiba történt", JOptionPane.WARNING_MESSAGE);
         }
     }
-
-    //létrehozzuk az xml fájlt olyan felépítéssel,hogy a beolvasás tökéletesen működhessen
     public static void createXML() {
+        //létrehozzuk az xml fájlt olyan felépítéssel,hogy a beolvasás tökéletesen működhessen
         try {
             File f = new File("properties\\settings.xml");
 

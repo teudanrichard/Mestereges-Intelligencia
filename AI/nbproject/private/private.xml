@@ -3,15 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/ui/Main.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/algorithm/Find.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/map/Map.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/path/Path.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/AI.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/ui/Settings.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/Events/Controller.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/cell/Cell.java</file>
-            <file>file:/I:/SourceTree/ai/AI/src/ai/map/ReadSettings.java</file>
+            <file>file:/media/j4vah4ck/Data/SourceTree/Mestereges-Intelligencia/AI/src/ai/AI.java</file>
+            <file>file:/media/j4vah4ck/Data/SourceTree/Mestereges-Intelligencia/AI/src/ai/ui/Settings.java</file>
+            <file>file:/media/j4vah4ck/Data/SourceTree/Mestereges-Intelligencia/AI/src/ai/ui/Main.java</file>
         </group>
     </open-files>
 </project-private>

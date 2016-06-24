@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Settings>
+    <Parameters>
+        <karakter_ut> </karakter_ut>
+        <karakter_fal>#</karakter_fal>
+        <karakter_start>1</karakter_start>
+        <karakter_cel>+</karakter_cel>
+        <racsozott_palya>true</racsozott_palya>
+        <legrovidebb_ut>true</legrovidebb_ut>
+        <szin_fal>
+            <szin_fal_r>128</szin_fal_r>
+            <szin_fal_g>128</szin_fal_g>
+            <szin_fal_b>128</szin_fal_b>
+        </szin_fal>
+        <szin_ut>
+            <szin_ut_r>255</szin_ut_r>
+            <szin_ut_g>255</szin_ut_g>
+            <szin_ut_b>255</szin_ut_b>
+        </szin_ut>
+        <szin_cel>
+            <szin_cel_r>255</szin_cel_r>
+            <szin_cel_g>0</szin_cel_g>
+            <szin_cel_b>0</szin_cel_b>
+        </szin_cel>
+        <szin_start>
+            <szin_start_r>0</szin_start_r>
+            <szin_start_g>0</szin_start_g>
+            <szin_start_b>255</szin_start_b>
+        </szin_start>
+    </Parameters>
+</Settings>

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ai.ui;
 
 import java.awt.Color;
@@ -29,7 +24,7 @@ public class CanvasPanel extends JComponent {
     public static void setBimage(BufferedImage bimage) {
         CanvasPanel.bimage.add(bimage);
     }
-    //minden letárolt képet töröl kívülről is hívhato statikus függvény
+    //minden letárolt képet töröl
     public static void removeAllImage(){
         for(int i=0;i<bimage.size();i++){
             CanvasPanel.bimage.remove(i);

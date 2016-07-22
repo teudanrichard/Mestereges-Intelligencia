@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ai.algorithm;
 
 import ai.cell.Cell;
 import ai.map.Map;
 import ai.path.Path;
 
-/**
- *
- * @author ÁdámRichárd
- */
 public class Find {
     
     public static void shortestWay(int x, int y, int count) {
@@ -71,7 +62,7 @@ public class Find {
     }
 
     /**
-     * clean the map and try to find the shortest way backward from the finish position
+     * 
      * @param cx cell x 
      * @param cy cell y
      * @param steps steps
@@ -105,7 +96,6 @@ public class Find {
      * 
      * @param x x position
      * @param y y position
-     * @return with true or false if the position is still on the map
      */
     private static boolean isCellValid(int x, int y) { 
         //cella ellenőrzése az és kapcsolatok miatt, ha bármi nem stimmel false-al tér vissza
@@ -113,7 +103,6 @@ public class Find {
     }
 
     /**
-     * try to find the start position returns with the cell
      * @return
      */
     public static Cell findStartPosition() {

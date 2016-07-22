@@ -1,9 +1,5 @@
 package ai.cell;
 
-/**
- *
- * @author ÁdámRichárd
- */
 public class Cell {
 
     private int x;

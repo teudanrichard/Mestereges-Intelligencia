@@ -133,7 +133,7 @@ public class ReadSettings {
     }
 
     /**
-     * check properties folder then settings.xml if it doesn't exists it will create the folder and the xml file too
+     *
      */
     public static void checkXML() {
         File folder = new File("properties");
@@ -141,7 +141,7 @@ public class ReadSettings {
             folder.mkdir();
             createXML();
         } else {
-            if (new File("properties\\settings.xml").exists()) {
+            if (new File("properties"+File.separator+"settings.xml").exists()) {
                 readXML();
             } else {
                 createXML();
@@ -154,7 +154,7 @@ public class ReadSettings {
         //beolvassuk a properties/settings.xml fájlt a letárolt változók miatt
         try {
             //fájl
-            File f = new File("properties\\settings.xml");
+            File f = new File("properties"+File.separator+"settings.xml");
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -238,7 +238,7 @@ public class ReadSettings {
     public static void createXML() {
         //létrehozzuk az xml fájlt olyan felépítéssel,hogy a beolvasás tökéletesen működhessen
         try {
-            File f = new File("properties\\settings.xml");
+            File f = new File("properties"+File.separator+"settings.xml");
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
